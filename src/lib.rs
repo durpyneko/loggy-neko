@@ -13,7 +13,51 @@ use lazy_static::lazy_static;
 use std::sync::Mutex;
 
 lazy_static! {
-    static ref LOG_LEVEL: Mutex<LogLevel> = Mutex::new(LogLevel::Info);
+    pub static ref LOGGER: Logger = Logger::new();
+}
+
+/// Logs an info message.
+///
+/// # Example
+/// ```
+/// info!("This is an informative message.");
+/// ```
+#[macro_export]
+macro_rules! info {
+    ($message:expr) => {
+        $crate::LOGGER.info($message);
+    };
+}
+
+/// Logs a warning message.
+///
+/// # Example
+/// ```
+/// warn!("This is a warning message.");
+/// ```
+#[macro_export]
+macro_rules! warn {
+    ($message:expr) => {
+        $crate::LOGGER.warn($message);
+    };
+}
+
+/// Logs an error message.
+///
+/// # Example
+/// ```
+/// error!("This is an error message.");
+/// ```
+#[macro_export]
+macro_rules! error {
+    ($message:expr) => {
+        $crate::LOGGER.error($message);
+    };
+}
+
+// maybe RwLock?
+pub struct Logger {
+    log_level: Mutex<LogLevel>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]
@@ -41,46 +85,84 @@ impl LogLevel {
     }
 }
 
-pub fn set_log_level(level: LogLevel) {
-    let mut log_level = LOG_LEVEL.lock().unwrap();
-    *log_level = level;
-}
-
-fn should_log(level: LogLevel) -> bool {
-    let log_level = LOG_LEVEL.lock().unwrap();
-    level <= *log_level
-}
-
-pub fn log(level: LogLevel, message: &str) {
-    if should_log(level) {
-        let formatted_message = format!(
-            "{} {} {}",
-            format!("[{}]", Local::now().format("%Y-%m-%d %H:%M:%S")).bright_black(),
-            level.color(),
-            message
-        );
-        if level == LogLevel::Error {
-            eprintln!("{}", formatted_message);
-        } else {
-            println!("{}", formatted_message);
+impl Logger {
+    pub fn new() -> Self {
+        Logger {
+            log_level: Mutex::new(LogLevel::Info),
         }
     }
-}
 
-pub fn info(message: &str) {
-    log(LogLevel::Info, message);
-}
+    /// Set log level.
+    ///
+    /// # Example
+    /// ```
+    /// LOGGER.set_log_level(LogLevel::Info);
+    /// ```
+    pub fn set_log_level(&self, level: LogLevel) {
+        let mut log_level = self.log_level.lock().unwrap();
+        *log_level = level;
+    }
 
-pub fn warn(message: &str) {
-    log(LogLevel::Warn, message);
-}
+    fn should_log(&self, level: LogLevel) -> bool {
+        let log_level = self.log_level.lock().unwrap();
+        level <= *log_level
+    }
 
-pub fn error(message: &str) {
-    log(LogLevel::Error, message);
+    /// Custom log implementation.
+    ///
+    /// # Example
+    /// ```
+    /// LOGGER.log(LogLevel::Info, "This is an informative message.");
+    /// ```
+    pub fn log(&self, level: LogLevel, message: &str) {
+        if self.should_log(level) {
+            let formatted_message = format!(
+                "{} {} {}",
+                format!("[{}]", Local::now().format("%Y-%m-%d %H:%M:%S")).bright_black(),
+                level.color(),
+                message
+            );
+            if level == LogLevel::Error {
+                eprintln!("{}", formatted_message);
+            } else {
+                println!("{}", formatted_message);
+            }
+        }
+    }
+
+    /// Logs an info message.
+    ///
+    /// # Example
+    /// ```
+    /// LOGGER.info("This is an informative message.");
+    /// ```
+    pub fn info(&self, message: &str) {
+        self.log(LogLevel::Info, message);
+    }
+
+    /// Logs a warn message.
+    ///
+    /// # Example
+    /// ```
+    /// LOGGER.warn("This is a warn message.");
+    /// ```
+    pub fn warn(&self, message: &str) {
+        self.log(LogLevel::Warn, message);
+    }
+
+    /// Logs an error message.
+    ///
+    /// # Example
+    /// ```
+    /// LOGGER.info("This is an error message.");
+    /// ```
+    pub fn error(&self, message: &str) {
+        self.log(LogLevel::Error, message);
+    }
 }
 
 /*
   ∧,,,∧
-(  ̳• · • ̳)
-/    づ♡ read if cute
+( ̳• · • ̳)
+/ づ♡ read if cute
 */
