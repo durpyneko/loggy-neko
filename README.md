@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="preview/loggy-banner-no-bg.png" alt="loggy-banner"><br>
+  <img src="preview/loggy-banner.png" alt="loggy-banner"><br>
   <b>Simple thread-safe logging tool with dynamic log level configuration.</b>
 </p>
 
