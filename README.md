@@ -52,15 +52,7 @@ fn main() {
 
 ```
 
-## Output preview from above code:
+## Outputs:
+<img src="preview/log-preview.png" alt="log preview screenshot"/>
 
-<pre>
-<code>
-<span style="color: grey">[2024-06-19 14:36:56]</span> <span style="color: red">[ERRR]</span> <span style="color: white">Log level set to Error. Only errors log</span>
-<span style="color: grey">[2024-06-19 14:36:56]</span> <span style="color: lime">[INFO]</span> <span style="color: white">Log level set to Info. Will log: Info, Warn, Error</span>
-<span>[src\main.rs:18:10]</span> <span style="color: white">format!("{:?}", test_vec).as_str() = "TestVec { array: [\"Hello\", \"World!\"] }"</span>
-<span style="color: grey">[2024-06-19 14:36:56]</span> <span style="color: lime">[INFO]</span> <span style="color: white">TestVec { array: ["Hello", "World!"] }</span>
-<span style="color: grey">[2024-06-19 14:36:56]</span> <span style="color: yellow">[WARN]</span> <span style="color: white">Log level set to Warn. Will log: Warn, Error</span>
-<span style="color: grey">[2024-06-19 14:36:56]</span> <span style="color: red">[ERRR]</span> <span style="color: white">Error message.</span>
-</code>
-</pre>
+
