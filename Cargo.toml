@@ -2,6 +2,7 @@
 name = "loggy"
 version = "0.1.1"
 edition = "2021"
+description = "Loggy is a thread-safe logging tool with dynamic log level configuration."
 
 [lib]
 crate-type = ["lib"]
