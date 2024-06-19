@@ -3,6 +3,11 @@ name = "loggy"
 version = "0.1.1"
 edition = "2021"
 description = "Loggy is a thread-safe logging tool with dynamic log level configuration."
+license = "MIT"
+repository = "https://github.com/durpyneko/loggy"
+homepage = "https://github.com/durpyneko/loggy"
+documentation = "https://github.com/durpyneko/loggy" 
+readme = "README.md"
 
 [lib]
 crate-type = ["lib"]
