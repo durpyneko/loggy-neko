@@ -1,7 +1,7 @@
-use loggy::{LogLevel, LOGGER};
+use loggy_neko::{LogLevel, LOGGER};
 
 #[macro_use]
-extern crate loggy;
+extern crate loggy_neko;
 
 #[derive(Debug)]
 struct TestVec {

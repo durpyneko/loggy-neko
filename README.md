@@ -16,10 +16,10 @@ You can also use both info/warn/error() and log(LogLevel::Level, message) for lo
 # Quickstart
 
 ```rs
-use loggy::{LogLevel, LOGGER};
+use loggy_neko::{LogLevel, LOGGER};
 
 #[macro_use]
-extern crate loggy;
+extern crate loggy_neko;
 
 fn main() {
     info!("Hello World!");
