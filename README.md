@@ -75,9 +75,14 @@ fn main() {
     info!("Hello World!");
 }
 
-
 ```
 
 ## Outputs:
 
 <img src="preview/log-preview.png" alt="log preview screenshot"/>
+
+# Roadmap
+
+- [ ] More configs: Time style, custom colors and which items to display
+
+- [ ] Display which function ran and at which line.
