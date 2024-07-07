@@ -29,7 +29,7 @@ fn main() {
 # Example usage
 
 ```rs
-use loggy::{LogLevel, LOGGER};
+use loggy_neko::{LogLevel, LOGGER};
 
 #[macro_use]
 extern crate loggy_neko;
