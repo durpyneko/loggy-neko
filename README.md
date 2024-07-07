@@ -32,7 +32,7 @@ fn main() {
 use loggy::{LogLevel, LOGGER};
 
 #[macro_use]
-extern crate loggy;
+extern crate loggy_neko;
 
 #[derive(Debug)]
 struct TestVec {
