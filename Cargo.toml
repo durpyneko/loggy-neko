@@ -8,6 +8,9 @@ repository = "https://github.com/durpyneko/loggy-neko"
 homepage = "https://github.com/durpyneko/loggy-neko"
 documentation = "https://github.com/durpyneko/loggy-neko" 
 readme = "README.md"
+exclude = [
+    "src/main.rs",
+]
 
 [lib]
 crate-type = ["lib"]
