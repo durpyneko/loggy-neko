@@ -1,7 +1,6 @@
+use loggy_neko::prelude::*;
 use loggy_neko::{LogLevel, LOGGER};
-
-#[macro_use]
-extern crate loggy_neko;
+use std::{thread, time};
 
 #[derive(Debug)]
 struct TestVec {
@@ -34,6 +33,9 @@ fn main() {
 
     LOGGER.set_log_level(LogLevel::Info);
     LOGGER.info("LogLevel set to Info!");
+    LOGGER.debug("Debug message!");
+
+    thread::sleep(time::Duration::from_secs(2));
 
     info!("Hello World!");
 
@@ -41,7 +43,8 @@ fn main() {
         array: vec!["Hello".to_string(), "World!".to_string()],
     };
 
-    info!(dbg!(format!("{:?}", test_vec).as_str()));
+    info!(dbg!(format!("{:?}", test_vec)));
     warn!("Whoops!");
+    debug!("Debug message via macro!");
     info!("Hello World!");
 }
