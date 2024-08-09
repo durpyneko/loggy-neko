@@ -3,10 +3,11 @@
   <b>Simple thread-safe logging tool with dynamic log level configuration.</b>
 </p>
 
-Logging works in an hierarchy from Info > Warn > Error. If the log level is set to one of these only self and lower would log. Example:
+Logging works in an hierarchy from Info > Debug > Warn > Error. If the log level is set to one of these only self and lower would log. Example:
 
 ```r
-LogLevel::Info = Info, Warn, Error
+LogLevel::Info = Info, Warn, Error, Debug
+LogLevel::Debug = Warn, Error, Debug
 LogLevel::Warn = Warn, Error
 LogLevel::Error = Error
 ```
