@@ -12,47 +12,11 @@ use colored::Colorize;
 use lazy_static::lazy_static;
 use std::sync::Mutex;
 
+mod macros;
+pub mod prelude;
+
 lazy_static! {
     pub static ref LOGGER: Logger = Logger::new();
-}
-
-/// Logs an info message.
-///
-/// # Example
-/// ```
-/// info!("This is an informative message.");
-/// ```
-#[macro_export]
-macro_rules! info {
-    ($message:expr) => {
-        $crate::LOGGER.info($message);
-    };
-}
-
-/// Logs a warning message.
-///
-/// # Example
-/// ```
-/// warn!("This is a warning message.");
-/// ```
-#[macro_export]
-macro_rules! warn {
-    ($message:expr) => {
-        $crate::LOGGER.warn($message);
-    };
-}
-
-/// Logs an error message.
-///
-/// # Example
-/// ```
-/// error!("This is an error message.");
-/// ```
-#[macro_export]
-macro_rules! error {
-    ($message:expr) => {
-        $crate::LOGGER.error($message);
-    };
 }
 
 // maybe RwLock?
@@ -64,6 +28,7 @@ pub struct Logger {
 pub enum LogLevel {
     Error,
     Warn,
+    Debug,
     Info,
 }
 
@@ -72,21 +37,24 @@ impl LogLevel {
         match *self {
             LogLevel::Error => "[ERRR]",
             LogLevel::Warn => "[WARN]",
+            LogLevel::Debug => "[DEBU]",
             LogLevel::Info => "[INFO]",
         }
     }
 
     fn color(&self) -> colored::ColoredString {
+        let text = self.as_str();
         match *self {
-            LogLevel::Error => self.as_str().bright_red(),
-            LogLevel::Warn => self.as_str().bright_yellow(),
-            LogLevel::Info => self.as_str().bright_green(),
+            LogLevel::Error => text.bright_red(),
+            LogLevel::Warn => text.bright_yellow(),
+            LogLevel::Debug => text.bright_black(),
+            LogLevel::Info => text.bright_green(),
         }
     }
 }
 
 impl Logger {
-    pub fn new() -> Self {
+    fn new() -> Self {
         Logger {
             log_level: Mutex::new(LogLevel::Info),
         }
@@ -114,13 +82,13 @@ impl Logger {
     /// ```
     /// LOGGER.log(LogLevel::Info, "This is an informative message.");
     /// ```
-    pub fn log(&self, level: LogLevel, message: &str) {
+    pub fn log<T: AsRef<str>>(&self, level: LogLevel, message: T) {
         if self.should_log(level) {
             let formatted_message = format!(
                 "{} {} {}",
                 format!("[{}]", Local::now().format("%Y-%m-%d %H:%M:%S")).bright_black(),
                 level.color(),
-                message
+                message.as_ref()
             );
             if level == LogLevel::Error {
                 eprintln!("{}", formatted_message);
@@ -136,8 +104,8 @@ impl Logger {
     /// ```
     /// LOGGER.info("This is an informative message.");
     /// ```
-    pub fn info(&self, message: &str) {
-        self.log(LogLevel::Info, message);
+    pub fn info<T: AsRef<str>>(&self, message: T) {
+        self.log(LogLevel::Info, message.as_ref());
     }
 
     /// Logs a warn message.
@@ -146,18 +114,28 @@ impl Logger {
     /// ```
     /// LOGGER.warn("This is a warn message.");
     /// ```
-    pub fn warn(&self, message: &str) {
-        self.log(LogLevel::Warn, message);
+    pub fn warn<T: AsRef<str>>(&self, message: T) {
+        self.log(LogLevel::Warn, message.as_ref());
     }
 
     /// Logs an error message.
     ///
     /// # Example
     /// ```
-    /// LOGGER.info("This is an error message.");
+    /// LOGGER.error("This is an error message.");
     /// ```
-    pub fn error(&self, message: &str) {
-        self.log(LogLevel::Error, message);
+    pub fn error<T: AsRef<str>>(&self, message: T) {
+        self.log(LogLevel::Error, message.as_ref());
+    }
+
+    /// Logs a debug message.
+    ///
+    /// # Example
+    /// ```
+    /// LOGGER.debug("This is a debug message.");
+    /// ```
+    pub fn debug<T: AsRef<str>>(&self, message: T) {
+        self.log(LogLevel::Debug, message.as_ref());
     }
 }
 
