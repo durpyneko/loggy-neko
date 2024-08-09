@@ -16,10 +16,7 @@ You can also use both info/warn/error() and log(LogLevel::Level, message) for lo
 # Quickstart
 
 ```rs
-use loggy_neko::{LogLevel, LOGGER};
-
-#[macro_use]
-extern crate loggy_neko;
+use loggy_neko::prelude::*;
 
 fn main() {
     info!("Hello World!");
@@ -29,10 +26,7 @@ fn main() {
 # Example usage
 
 ```rs
-use loggy_neko::{LogLevel, LOGGER};
-
-#[macro_use]
-extern crate loggy_neko;
+use loggy::{LogLevel, LOGGER};
 
 #[derive(Debug)]
 struct TestVec {
@@ -50,6 +44,7 @@ fn main() {
 
     LOGGER.info("LogLevel set to Info!");
     LOGGER.warn("Warn message!");
+    LOGGER.debug("Debug message!");
 
     // * Or using macros
 
@@ -72,8 +67,10 @@ fn main() {
 
     info!(dbg!(format!("{:?}", test_vec).as_str()));
     warn!("Whoops!");
+    debug!("Debug message via macro!");
     info!("Hello World!");
 }
+
 
 ```
 
