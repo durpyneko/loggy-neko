@@ -1,6 +1,6 @@
 [package]
 name = "loggy-neko"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 description = "loggy-neko is a thread-safe logging tool with dynamic log level configuration."
 license = "MIT"
