@@ -27,7 +27,8 @@ fn main() {
 # Example usage
 
 ```rs
-use loggy::{LogLevel, LOGGER};
+use loggy_neko::prelude::*;
+use loggy::{LOGGER, LogLevel};
 
 #[derive(Debug)]
 struct TestVec {
